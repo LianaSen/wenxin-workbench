@@ -113,7 +113,7 @@ function cmdInit(targetArg) {
     fail(`写入失败：${dest}（${error.message}）`)
   }
   const { created, skipped } = counts
-  console.log(`毛颖脚手架 → ${dest}`)
+  console.log(`文心脚手架 → ${dest}`)
   for (const rel of created) console.log(`  创建 ${rel}`)
   for (const rel of skipped) console.log(`  跳过 ${rel}（已存在，未覆盖）`)
   console.log(`完成：新建 ${created.length} 个文件，跳过 ${skipped.length} 个。`)
@@ -509,7 +509,7 @@ function cmdImport(rest) {
 
 // ── 入口 ────────────────────────────────────────────────────────────────────
 
-const HELP_TEXT = `毛颖（maoying）—— 网文创作项目 CLI
+const HELP_TEXT = `文心（wenxin）—— 网文创作项目 CLI
 
 用法：
   maoying init [dir]     生成 novel/ 脚手架（默认 ./novel；已存在的文件一律跳过，绝不覆盖）

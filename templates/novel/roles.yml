@@ -1,7 +1,17 @@
-# roles.yml —— 六角色分模型 AI 调用配置（叙事工坊兼容）
+# roles.yml —— 文心工作台八角色分模型 AI 调用配置
 # 每个角色独立 provider/model/base_url；api_key 不落明文，只写环境变量名 api_key_env。
-# kind：outline | plan | draft | polish | review
-# slot：毛颖委派槽位 outline | draft | review | lore | research
+# kind：orchestrate | outline | plan | draft | polish | review | research
+# slot：chief | outline | draft | review | research
+- id: chief-editor
+  label: 主编
+  kind: orchestrate
+  slot: chief
+  provider: openai_compatible
+  model: ""
+  base_url: ""
+  api_key_env: DSH_ROLE_CHIEF_EDITOR_KEY
+  enabled: true
+  instruction: 统筹全书：规划、衔接、验收、阶段推进与拍板；并兼管设定与台账——角色卡、世界观、伏笔、时间线、记忆、线索板的落盘与推进。只做规划与把关，不代写正文。
 - id: architect
   label: 故事策划
   kind: outline
@@ -11,7 +21,7 @@
   base_url: ""
   api_key_env: DSH_ROLE_ARCHITECT_KEY
   enabled: true
-  instruction: 规划整本故事的核心冲突、人物欲望与代价、世界规则、起承转合、主线因果、人物弧线、分卷和明确结局。
+  instruction: 规划整本故事的核心冲突、人物欲望与代价、世界规则、起承转合、主线因果、人物弧线、分卷和明确结局。区分已确定事实与建议。
 - id: director
   label: 分章编剧
   kind: plan
@@ -21,7 +31,7 @@
   base_url: ""
   api_key_env: DSH_ROLE_DIRECTOR_KEY
   enabled: true
-  instruction: 把本章纲要拆成能实际落笔的场景，写清人物目标、阻碍、选择、代价与本章不能提前揭示的信息。
+  instruction: 把本章纲要拆成能实际落笔的场景，写清人物目标、阻碍、选择、代价、局面变化与本章不能提前揭示的信息。保留已确认章纲。
 - id: writer
   label: 正文作者
   kind: draft
@@ -31,7 +41,7 @@
   base_url: ""
   api_key_env: DSH_ROLE_WRITER_KEY
   enabled: true
-  instruction: 按本章任务写完整正文，以行动、对白和有作用的细节落实情节，人物按自身动机和已知信息行动。
+  instruction: 按本章任务写完整正文，以行动、对白和有作用的细节落实情节，人物按自身动机和已知信息行动，不用梗概代替正文。
 - id: stylist
   label: 文风编辑
   kind: polish
@@ -41,7 +51,7 @@
   base_url: ""
   api_key_env: DSH_ROLE_STYLIST_KEY
   enabled: true
-  instruction: 只编辑表达、句式节奏、段落、标点、动作与对话自然度，保留事件、因果、信息边界与原有叙述声音。
+  instruction: 只编辑表达、句式节奏、段落、标点、具体动作与对话自然度，保留事件、因果、信息边界与原有叙述声音，拿不准就留原文。
 - id: continuity
   label: 连续性审核
   kind: review
@@ -51,7 +61,7 @@
   base_url: ""
   api_key_env: DSH_ROLE_CONTINUITY_KEY
   enabled: true
-  instruction: 只读审稿，检查设定、人物已知、时间线、因果与伏笔，区分确定错误与需作者裁决的疑点。
+  instruction: 只读审稿，检查设定、人物已知、时间线、因果、伏笔与润色保真，区分确定错误与需作者裁决的疑点。
 - id: reader
   label: 读者审稿
   kind: review
@@ -62,3 +72,13 @@
   api_key_env: DSH_ROLE_READER_KEY
   enabled: true
   instruction: 站在普通读者视角检查是否看得懂、人物是否值得关心、情绪是否成立、哪里拖沓，避免只有抽象评分。
+- id: research
+  label: 素材调研员
+  kind: research
+  slot: research
+  provider: openai_compatible
+  model: ""
+  base_url: ""
+  api_key_env: DSH_ROLE_RESEARCH_KEY
+  enabled: true
+  instruction: 联网检索历史/地理/民俗/专业领域/市场同类书素材，区分史实/通说/演义并附来源，结论要能直接用于写作。

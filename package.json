@@ -1,7 +1,7 @@
 {
-  "name": "dsh-maoying-narrative",
-  "version": "0.2.0",
-  "description": "毛颖 × 叙事工坊 — DSH 网文创作插件：主编 + 五帮手编排 + 六角色分模型调用（architect/director/writer/stylist/continuity/reader），novel/ 结构化文件为数据库，创作台面板可视化",
+  "name": "dsh-wenxin",
+  "version": "0.3.0",
+  "description": "文心工作台 — DSH 网文创作插件：八角色（主编/故事策划/分章编剧/正文作者/文风编辑/连续性审核/读者审稿/素材调研员）分模型 AI 调用，每个编辑面可一键生成/补全，novel/ 结构化文件为数据库，创作台面板可视化",
   "type": "module",
   "license": "MIT",
   "icon": "./icon.svg",

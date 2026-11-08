@@ -1,4 +1,4 @@
-# dsh-maoying-narrative（毛颖 × 叙事工坊）
+# 文心工作台（Wénxīn × 叙事工坊）
 
 中文 | [English](README.en.md)
 
@@ -8,7 +8,7 @@
 
 ## 叙事工坊整合（本分支新增）
 
-在毛颖原有「主编 + 五帮手 + novel/ 文件数据库」之上，接入叙事工坊（Narrative Workbench）的**角色 AI 调用**，可视化全部沿用毛颖创作台面板，最终仍是一个可安装的 DSH 插件：
+在毛颖原有「主编 + 五帮手 + novel/ 文件数据库」之上，接入叙事工坊（Narrative Workbench）的**角色 AI 调用**，可视化全部沿用文心创作台面板，最终仍是一个可安装的 DSH 插件：
 
 - **六角色分模型**：`novel/roles.yml` 定义 architect 故事策划 / director 分章编剧 / writer 正文作者 / stylist 文风编辑 / continuity 连续性审核 / reader 读者审稿；每角色独立 `provider/model/base_url`，密钥只存环境变量名 `api_key_env`；主编委派时按角色把 provider/model 传给子代理。
 - **创作台面板新增「AI 角色」tab**：六角色配置可视化编辑 +「从叙事工坊导入」，与既有 tab 同一套快照/写面/校验。
@@ -38,7 +38,7 @@
 dsh plugin --profile web add dsh-maoying
 ```
 
-**重启 DSH（`dsh web`）**：插件启动时自动把预设装进 `~/.dsh/.agent-presets/maoying/`，并写好声明行托管块，无需再点任何按钮。托管块写入层自动选择：桌面/服务器默认写 home 级 `~/.dsh/cordis.patch.yml`；Android compat 壳环境（该壳每次启动会把 home 级 patch 重写坏）自动改写 profile 级 `~/.dsh/profiles/<name>/cordis.patch.yml`——壳不碰 profile 层，插件每次启动补写自愈，并顺手清掉 home 级遗留托管块防双声明；也可用环境变量 `DSH_MAOYING_PATCH_LAYER=home|profile` 强制指定。新会话的预设选择器里选「**毛颖创作 (Maoying)**」即可开写；要设为默认，在 Settings → Agent Presets 里选。
+**重启 DSH（`dsh web`）**：插件启动时自动把预设装进 `~/.dsh/.agent-presets/maoying/`，并写好声明行托管块，无需再点任何按钮。托管块写入层自动选择：桌面/服务器默认写 home 级 `~/.dsh/cordis.patch.yml`；Android compat 壳环境（该壳每次启动会把 home 级 patch 重写坏）自动改写 profile 级 `~/.dsh/profiles/<name>/cordis.patch.yml`——壳不碰 profile 层，插件每次启动补写自愈，并顺手清掉 home 级遗留托管块防双声明；也可用环境变量 `DSH_MAOYING_PATCH_LAYER=home|profile` 强制指定。新会话的预设选择器里选「**文心创作 (Wenxin)**」即可开写；要设为默认，在 Settings → Agent Presets 里选。
 
 开发检出（想改插件或预设源码）用 link 形态直连仓库，改动经重启生效：
 
@@ -80,7 +80,7 @@ npm install -g dsh-maoying       # 或装成全局 maoying 命令
 
 ## 创作台面板
 
-DSH 左侧栏底部点「**毛颖创作台**」打开创作台（改文件、跑流程之外，给肉眼看的驾驶舱）。打开方式在面板系统设置里三选一（立即记忆，对下一次打开生效）：
+DSH 左侧栏底部点「**文心创作台**」打开创作台（改文件、跑流程之外，给肉眼看的驾驶舱）。打开方式在面板系统设置里三选一（立即记忆，对下一次打开生效）：
 
 - **分栏**（默认）：创作台在中栏全页，点章节/最近更新开**文章页右侧栏 tab**——阅读/编辑与创作台同屏对照；
 - **中间栏**：两者都在中栏（0.1.25 及以前的唯一形态）；

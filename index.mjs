@@ -104,6 +104,9 @@ import { checkProject } from './lib/novel-parse.mjs'
 import { loadYamlLib, resolveDshHome } from './lib/yaml-loader.mjs'
 // 叙事工坊桥接（workspace.sqlite3 → novel/）：面板「AI 角色」tab 的导入动作。
 import { importFromWorkbench, listWorkbenchTitles } from './lib/narrative-bridge.mjs'
+// 文心八角色 + 面板「AI 生成/补全」的模型调用。
+import { loadRoles, roleById } from './lib/roles.mjs'
+import { AiError, buildSystemPrompt, buildUserPrompt, defaultRoleForSurface, runRoleCompletion } from './lib/ai-roles.mjs'
 
 // loadYamlLib / resolveDshHome 已迁至 lib/yaml-loader.mjs（创作台业务层与
 // 安装器共用，避免 panel-core 反向 import 主入口）；这里再导出保住本入口的
@@ -1644,6 +1647,31 @@ export async function registerCreatorRoutes(ctx) {
             title: body.title,
             overwrite: !!body.overwrite,
           }))
+          return
+        }
+
+        // ── 面板「AI 生成 / 补全」：按角色调用模型 ──────────────────────────
+        if (route === 'ai-complete' && req.method === 'POST') {
+          // body: { path, roleId, surface, mode: 'generate'|'complete', text, instruction }
+          const body = await readBody(req, res)
+          const novelDir = resolveNovelRoot(body.path, ctx.workspaceRegistry)
+          const roles = loadRoles(novelDir)
+          const roleId = typeof body.roleId === 'string' ? body.roleId : ''
+          const role = roleById(roles, roleId) || roleById(roles, defaultRoleForSurface(body.surface))
+          if (!role) throw new AiError(422, 'roles.yml 中没有可用角色')
+          let styleText = ''
+          let projectText = ''
+          try { styleText = readFileSync(path.join(novelDir, 'style.md'), 'utf8').slice(0, 6000) } catch { /* 无风格基准 */ }
+          try { projectText = readFileSync(path.join(novelDir, 'project.yml'), 'utf8').slice(0, 2000) } catch { /* 无元信息 */ }
+          const system = buildSystemPrompt({ role, surface: body.surface, styleText, projectText })
+          const user = buildUserPrompt({
+            mode: body.mode === 'complete' ? 'complete' : 'generate',
+            text: typeof body.text === 'string' ? body.text : '',
+            instruction: body.instruction,
+            surface: body.surface,
+          })
+          const text = await runRoleCompletion({ role, system, user })
+          json(res, 200, { ok: true, text, role: { id: role.id, label: role.label, model: role.model } })
           return
         }
 

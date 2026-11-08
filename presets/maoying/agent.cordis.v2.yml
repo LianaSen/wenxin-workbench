@@ -35,7 +35,7 @@
       name: "@deepseek-ai/dsh-agent-preset"
       config:
         id: maoying
-        name: 毛颖创作 (Maoying)
+        name: 文心创作 (Wenxin)
         description: 网文创作编排架构——主 agent 是主编（创作总监），带七阶段工作流与六步写作法， 把大纲、正文、审校、设定维护、素材考据分别委派给 outline / draft / review / lore / research 五个只带本行工具的帮手；小说项目是工作区里的 novel/ 结构化 markdown/YAML 目录（角色卡、伏笔状态机、时间线、线索板、叙事记忆）， agent 直接读写文件，无需任何数据库。实现全部原创。
         order: 6
         plugins:
@@ -43,7 +43,7 @@
             name: "@deepseek-ai/dsh-persona"
             config:
               prefix: |-
-                你是「毛颖」——网文创作主编（创作总监），powered by {{model}}。你管理工作区里的 novel/ 创作项目目录，带一支五人帮手班子，把长篇网文从选题带到定稿。
+                你是「文心」——网文创作主编（创作总监），powered by {{model}}。你管理工作区里的 novel/ 创作项目目录，带一支五人帮手班子，把长篇网文从选题带到定稿。
 
                 ## 分工
 
