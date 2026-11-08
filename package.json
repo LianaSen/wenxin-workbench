@@ -1,0 +1,75 @@
+{
+  "name": "dsh-maoying-narrative",
+  "version": "0.2.0",
+  "description": "毛颖 × 叙事工坊 — DSH 网文创作插件：主编 + 五帮手编排 + 六角色分模型调用（architect/director/writer/stylist/continuity/reader），novel/ 结构化文件为数据库，创作台面板可视化",
+  "type": "module",
+  "license": "MIT",
+  "icon": "./icon.svg",
+  "main": "index.mjs",
+  "exports": {
+    ".": "./index.mjs",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "maoying": "bin/maoying.mjs"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "smoke": "node scripts/smoke-client.mjs"
+  },
+  "engines": {
+    "node": ">=18",
+    "dsh": ">=0.1.7 <0.3"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh": ">=0.1.7 <0.3"
+  },
+  "dependencies": {},
+  "files": [
+    "index.mjs",
+    "bin/",
+    "lib/",
+    "scripts/",
+    "presets/",
+    "skills/",
+    "templates/",
+    "docs/",
+    "icon.svg",
+    "README.md",
+    "README.en.md",
+    "LICENSE",
+    "cordis.patch.yml"
+  ],
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "novel-writing",
+    "web-novel",
+    "orchestrator",
+    "narrative-workbench",
+    "role-routing"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LianaSen/dsh-maoying-narrative.git"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-client-connection",
+        "@deepseek-ai/dsh-client-ui-sidebar-right"
+      ]
+    }
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/dsh": {
+      "optional": true
+    }
+  }
+}
