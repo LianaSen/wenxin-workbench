@@ -105,7 +105,7 @@ import { loadYamlLib, resolveDshHome } from './lib/yaml-loader.mjs'
 // 叙事工坊桥接（workspace.sqlite3 → novel/）：面板「AI 角色」tab 的导入动作。
 import { importFromWorkbench, listWorkbenchTitles } from './lib/narrative-bridge.mjs'
 // 文心八角色 + 面板「AI 生成/补全」的模型调用。
-import { loadRoles, roleById } from './lib/roles.mjs'
+import { loadRoles, roleById, loadModelCatalog, saveModelCatalog } from './lib/roles.mjs'
 import { AiError, buildSystemPrompt, buildUserPrompt, defaultRoleForSurface, runRoleCompletion } from './lib/ai-roles.mjs'
 
 // loadYamlLib / resolveDshHome 已迁至 lib/yaml-loader.mjs（创作台业务层与
@@ -1672,6 +1672,44 @@ export async function registerCreatorRoutes(ctx) {
           })
           const text = await runRoleCompletion({ role, system, user })
           json(res, 200, { ok: true, text, role: { id: role.id, label: role.label, model: role.model } })
+          return
+        }
+
+        // ── 刷新市场模型列表：读各接口的 /models，合并进 novel/models.yml ──────
+        if (route === 'models-refresh' && req.method === 'POST') {
+          const body = await readBody(req, res)
+          const novelDir = resolveNovelRoot(body.path, ctx.workspaceRegistry)
+          const catalog = loadModelCatalog(novelDir)
+          const seen = new Set(catalog.map((m) => `${m.base_url}|${m.id}`))
+          const byBase = new Map()
+          for (const m of catalog) {
+            if (typeof m.base_url === 'string' && m.base_url.trim() !== '' && !byBase.has(m.base_url)) {
+              byBase.set(m.base_url, m.api_key_env || '')
+            }
+          }
+          let added = 0
+          for (const [base, keyEnv] of byBase) {
+            try {
+              const key = keyEnv && process.env[keyEnv] ? process.env[keyEnv] : ''
+              const res2 = await fetch(`${String(base).replace(/\/+$/, '')}/models`, {
+                headers: key ? { authorization: `Bearer ${key}` } : {},
+                signal: AbortSignal.timeout(15000),
+              })
+              if (!res2.ok) continue
+              const data = await res2.json().catch(() => null)
+              const ids = data && Array.isArray(data.data) ? data.data.map((x) => x && x.id).filter((x) => typeof x === 'string' && x !== '') : []
+              for (const id of ids) {
+                if (seen.has(`${base}|${id}`)) continue
+                seen.add(`${base}|${id}`)
+                catalog.push({ id, label: id, tier: 'candidate', provider: 'openai_compatible', base_url: base, api_key_env: keyEnv || '', note: '接口发现' })
+                added += 1
+              }
+            } catch {
+              /* 单个接口失败不影响其余 */
+            }
+          }
+          saveModelCatalog(novelDir, catalog)
+          json(res, 200, { ok: true, added, total: catalog.length })
           return
         }
 
