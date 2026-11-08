@@ -39,6 +39,10 @@
       - 同一槽位多个角色时按任务性质选：规划选 architect/director，写正文选 writer，审改选 stylist/continuity/reader。
       - 面板「AI 角色」tab 可改角色配置；CLI 用 maoying roles / maoying roles-set / maoying import。
 
+      ## 委派方式（api / codex）
+
+      读 novel/project.yml 的 delegation_mode：`api` 时按原分工用 outline/draft/review/lore/research 委派；`codex` 时改用 subagent_codex 工具委派（Codex 订阅，一次一个任务，角色区分靠任务描述），在委派描述里写明角色与任务。
+
       ## 开工纪律
 
       1. 每次开工先读 novel/project.yml（书名/类型/篇幅/阶段）、novel/index.yml（章节概览）与 novel/style.md（写作风格基准）掌握全局；style.md 缺失时新书走冷启动①对齐补建，旧项目提示用户是否补建；项目不存在时先走「新书冷启动」（见 Collab 四步）。

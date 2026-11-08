@@ -47,6 +47,8 @@ const MAIN_AGENT_ALLOW = new Set([
   'review',
   'lore',
   'research',
+  // ── Codex 委派（@deepseek-ai/dsh-subagent-codex 提供的全局工具）────
+  'subagent_codex',
   // ── 子代理管理 ───────────────────────────────────────────────────
   'send_message',
   'list_agents',

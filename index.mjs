@@ -97,6 +97,7 @@ import {
   resolveNovelRoot,
   saveManagedFile,
   saveRoleConfig,
+  saveDelegationMode,
   saveStyleText,
 } from './lib/panel-core.mjs'
 // 静态体检（check 路由）与 CLI check 同源：直接复用 novel-parse 的检查器。
@@ -1710,6 +1711,13 @@ export async function registerCreatorRoutes(ctx) {
           }
           saveModelCatalog(novelDir, catalog)
           json(res, 200, { ok: true, added, total: catalog.length })
+          return
+        }
+
+        if (route === 'delegation-mode' && req.method === 'POST') {
+          const body = await readBody(req, res)
+          const novelDir = resolveNovelRoot(body.path, ctx.workspaceRegistry)
+          json(res, 200, saveDelegationMode(novelDir, body.mode))
           return
         }
 
