@@ -1,4 +1,4 @@
-# maoying (毛颖创作) agent composition
+# maoying (文心创作) agent composition
 #
 # 组合形态：自包含全量组合——基础
 # 工具行全部注册在本 preset 层（不依赖 builtin standard），叠加创作编排层：

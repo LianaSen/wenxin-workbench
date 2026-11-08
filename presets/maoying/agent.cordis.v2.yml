@@ -1,4 +1,4 @@
-# maoying (毛颖创作) agent composition — AgentPreset 形态（v2 组合源，patch 形态）
+# maoying (文心创作) agent composition — AgentPreset 形态（v2 组合源，patch 形态）
 #
 # 用途：DSH 0.2.1-rc.2 起 dsh-tool-subagent 拒绝内联 persona/toolFilter 形状的委派行
 # （spawn 直接报 "<field> is no longer supported"）。角色组合改走 agentPreset——主编
@@ -274,7 +274,7 @@
       name: "@deepseek-ai/dsh-agent-preset"
       config:
         id: maoying-outline
-        name: 毛颖·大纲师（内部）
+        name: 文心·大纲师（内部）
         description: 大纲师：卷章规划与章节大纲（含五维叙事字段）。由主编委派自动选用，也可单独开会话。
         order: 61
         plugins:
@@ -337,7 +337,7 @@
       name: "@deepseek-ai/dsh-agent-preset"
       config:
         id: maoying-write
-        name: 毛颖·写手（内部）
+        name: 文心·写手（内部）
         description: 写手：按大纲写章节正文，五维覆盖、伏笔按纪律推进、章尾留钩子。由主编委派自动选用，也可单独开会话。
         order: 62
         plugins:
@@ -402,7 +402,7 @@
       name: "@deepseek-ai/dsh-agent-preset"
       config:
         id: maoying-review
-        name: 毛颖·审校（内部）
+        name: 文心·审校（内部）
         description: 审校：审稿清单加一致性扫描（冲突/时间线/伏笔/设定 + 连贯六维），只读出报告不改稿。由主编委派自动选用，也可单独开会话。
         order: 63
         plugins:
@@ -450,7 +450,7 @@
       name: "@deepseek-ai/dsh-agent-preset"
       config:
         id: maoying-lore
-        name: 毛颖·设定管理员（内部）
+        name: 文心·设定管理员（内部）
         description: 设定管理员：角色/世界观/伏笔/时间线/记忆/线索板的落盘与推进。由主编委派自动选用，也可单独开会话。
         order: 64
         plugins:
@@ -514,7 +514,7 @@
       name: "@deepseek-ai/dsh-agent-preset"
       config:
         id: maoying-research
-        name: 毛颖·素材调研员（内部）
+        name: 文心·素材调研员（内部）
         description: 素材调研员：联网考据，笔记落 novel/research/，附来源与可信度。由主编委派自动选用，也可单独开会话。
         order: 65
         plugins:
